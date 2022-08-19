@@ -23,7 +23,6 @@ pipeline {
             surname = "Desai"
             }
             steps {
-                sh 'echo "${BUILD_ID}"'
                 sh 'echo "${name}"'
                 sh 'echo "${surname}"'
             }
