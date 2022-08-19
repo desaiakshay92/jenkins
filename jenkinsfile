@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    environment{
+        name = "Akshay"
+    }
+    parameters{
+        string(name:'person',defaultValue:"Akki Desai",description:'who are yoou?')
+        booleanParam(name:'is_male',defaultValue:"true",description:'gender')
+        choice(name:'City',choices:['Mumbai','Pune','Kolkatta','Chennai','Banglore'],description:'Choose Your City')
+    }
+
+    stages {
+        stage('Run Command') {
+            steps {
+                sh '''date
+                pwd
+                ls
+                cal'''
+            }
+        }
+        stage('Environment Variable') {
+            environment{
+            surname = "Desai"
+            }
+            steps {
+                sh 'echo "${BUILD_ID}"'
+                sh 'echo "${name}"'
+                sh 'echo "${surname}"'
+            }
+        }
+        stage('Deploy on Test') {
+            steps {
+                echo 'Deploy on Test'
+                sh 'echo "${surname}"'
+                sh 'echo "${name}"'
+            }
+        }
+        stage('Deploy on Prod') {
+            input{
+                message "You Want to Continue?"
+                ok "Yes"
+            }
+            steps {
+                echo 'Hello Deploy on Prod'
+                sh 'echo "${person}"'
+            }
+        }
+    }
+    post{
+        always{
+            echo "Always"
+        }
+        failure{
+            echo "Failure"
+        }
+        success{
+            echo "Success"
+        }
+    }
+}
